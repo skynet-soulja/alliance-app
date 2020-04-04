@@ -1,0 +1,51 @@
+[
+    {
+        "name": "description",
+        "options": [
+            "First Draw",
+            "Second Draw"
+        ]
+    },
+    {
+        "name": "model",
+        "options": [
+            "All",
+            "Hersch",
+            "Hartigan",
+            "Hermann"
+        ]
+    },
+    {
+        "name": "elevation",
+        "options": [
+            "*",
+            "Farmhouse",
+            "Traditional",
+            "Craftsman"
+        ]
+    },
+    {
+        "name": "option",
+        "options": [
+            "BASE HOUSE",
+            "FINISHED LOWER LEVEL",
+            "WALK-OUT BASEMENT",
+            "DAYLIGHT BASEMENT",
+            "EXPANDED FAMILY ROOM",
+            "SARASOTA SUNROOM ADDITION",
+            "LUXURIOUS MASTER BATH PACKAGE",
+            "FIRST FLOOR BEDROOM IN LIEU OFST",
+            "SKYLIGHT 22 x 46\"",
+            "ADDITIONAL EXTERIOR DOOR",
+            "ADDITIONAL INTERIOR DOOR",
+            "POWDER ROOM FINISHED LOWER",
+            "STUDY IN LIEU OF LIVING ROOM",
+            "FULL BATHROOM IN LIEU OF POWDER",
+            "BEDROOM FOR FINISHED LOWER LEVEL",
+            "ADDITIONAL BATH",
+            "ALTERNATE HALL BATH LAYOUT",
+            "OPTIONAL BATH FOR FINISHED LOWER",
+            "SKYLIGHT WINDOWS"
+        ]
+    }
+]
