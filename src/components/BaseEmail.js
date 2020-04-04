@@ -55,7 +55,15 @@ const tdFootStyle = {
     padding: '.3rem',
 };
 
-export default function BaseEmail({ companyName, invoiceNum, companyDescription, invoiceItems, totalValue, today }) {
+export default function BaseEmail({
+    companyName,
+    invoiceNum,
+    companyDescription,
+    invoiceItems,
+    totalValue,
+    today,
+    numberWithCommas,
+}) {
     const { model, elevation } = invoiceItems[0];
     const tablerows = invoiceItems.map(({ description, option, price }, index) => {
         let trStyle = {};
@@ -66,7 +74,7 @@ export default function BaseEmail({ companyName, invoiceNum, companyDescription,
             <tr style={trStyle} key={index}>
                 <td style={tdStyle}>{option !== 'BASE HOUSE' ? optionMap[option] : descriptionMap[description]}</td>
                 <td style={tdStyle}>{option}</td>
-                <td style={tdStyle}>${price}.00</td>
+                <td style={tdStyle}>${numberWithCommas(price)}.00</td>
             </tr>
         );
     });
@@ -80,7 +88,7 @@ export default function BaseEmail({ companyName, invoiceNum, companyDescription,
                     <p>(703) 926-5780</p>
                 </div>
                 <div style={{ marginBottom: '2rem' }}>
-                    <p style={pStyle}>Billing To: {companyName}</p>
+                    <p style={pStyle}>Billing: {companyName}</p>
                     <p style={pStyle}>Address: {companyDescription}</p>
                     <p style={pStyle}>
                         Model/Elevation: {model}/{elevation}
@@ -98,7 +106,7 @@ export default function BaseEmail({ companyName, invoiceNum, companyDescription,
                         <tr>
                             <td style={tdFootStyle}>Total</td>
                             <td style={tdFootStyle}></td>
-                            <td style={tdFootStyle}>${totalValue}.00</td>
+                            <td style={tdFootStyle}>${numberWithCommas(totalValue)}.00</td>
                         </tr>
                     </tfoot>
                 </Table>

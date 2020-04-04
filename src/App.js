@@ -1,6 +1,7 @@
 // react
 import React from 'react';
 import { renderEmail } from 'react-html-email';
+import emailjs from 'emailjs-com';
 // bootstrap
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
@@ -62,23 +63,6 @@ export default class App extends React.Component {
         });
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        const serviceID = 'gmail';
-        const templateID = 'alliance_builders_invoice';
-        const variables = {
-            html: renderEmail(<BaseEmail title="Alliance Builders Invoice" {...this.state.emailAttributes} />),
-        };
-        window.emailjs
-            .send(serviceID, templateID, variables)
-            .then((response) => {
-                alert('Email successfully sent!');
-                this.clearInvoice();
-                this.wipeAndSeedCurrentInvoiceItem();
-            })
-            .catch((error) => alert(`Email failed to send: ${error}`));
-    }
-
     handleShow() {
         this.setState({
             show: true,
@@ -122,6 +106,34 @@ export default class App extends React.Component {
         }
         this.setState({ emailAttributes });
         this.handleShow();
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const userID = 'user_V14xWF1ExiPPBbXWAxdW6';
+        const serviceID = 'default_service';
+        const templateID = 'alliance_builders_invoice';
+        const variables = {
+            companyEmail: this.state.emailAttributes.companyEmail
+                ? this.state.emailAttributes.companyEmail
+                : 'bmartinalliance@gmail.com',
+            html: renderEmail(
+                <BaseEmail
+                    title="Alliance Builders Invoice"
+                    {...this.state.emailAttributes}
+                    numberWithCommas={this.numberWithCommas}
+                />
+            ),
+        };
+
+        emailjs
+            .send(serviceID, templateID, variables, userID)
+            .then((response) => {
+                alert('Email successfully sent!');
+                this.clearInvoice();
+                this.wipeAndSeedCurrentInvoiceItem();
+            })
+            .catch((error) => console.log(`Email failed to send: ${Object.entries(error)}`));
     }
 
     checkRequiredValues(emailAttributes) {
@@ -178,11 +190,17 @@ export default class App extends React.Component {
 
     calculateTotalValue() {
         const totalValue = this.state.invoiceItems.length
-            ? this.state.invoiceItems.reduce((prev, curr) => ({ price: prev.price + curr.price }))['price']
+            ? this.state.invoiceItems.reduce((prev, curr) => ({
+                  price: prev.price + curr.price,
+              }))['price']
             : 0;
         this.setState({
             totalValue,
         });
+    }
+
+    numberWithCommas(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
     render() {
@@ -202,7 +220,11 @@ export default class App extends React.Component {
         return (
             <div className="App container">
                 <EmailModal show={this.state.show} handleClose={this.handleClose} handleSubmit={this.handleSubmit}>
-                    <BaseEmail title="Alliance Builders Invoice" {...this.state.emailAttributes} />
+                    <BaseEmail
+                        title="Alliance Builders Invoice"
+                        {...this.state.emailAttributes}
+                        numberWithCommas={this.numberWithCommas}
+                    />
                 </EmailModal>
                 <h1 style={{ margin: '2rem 0px' }}>Alliance Builders</h1>
                 <Form>
