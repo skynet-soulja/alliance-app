@@ -10,7 +10,7 @@ export default function Dropdown({ options, name, value, handleChange }) {
     ));
 
     return (
-        <Form.Group as={Col} controlId={`form${name}`}>
+        <Form.Group xs="12" md="3" as={Col} controlId={`form${name}`}>
             <Form.Label>{`${name.charAt(0).toUpperCase()}${name.slice(1)}`}</Form.Label>
             <Form.Control name={name} value={value} as="select" onChange={handleChange}>
                 {optionItems}

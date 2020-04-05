@@ -6,7 +6,7 @@ import '../styles/Modal.css';
 export default function EmailModal({ children, show, handleClose, handleSubmit }) {
     return (
         <>
-            <Modal show={show} onHide={handleClose} animation={true}>
+            <Modal size="lg" show={show} onHide={handleClose} animation={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Preview Email</Modal.Title>
                 </Modal.Header>

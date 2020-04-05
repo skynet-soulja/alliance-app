@@ -5,8 +5,15 @@ import descriptionMap from '../mapping/description.json';
 import optionMap from '../mapping/option.json';
 
 const mobileCSS = `
-@media only screen and (max-device-width: 480px) {
-  font-size: 12px !important;
+@media only screen and (max-width: 992px) {
+    table td > table {
+        width: 100% !important;
+    }
+}
+@media only screen and (max-width: 480px) {
+    body {
+        font-size: 12px !important;
+    }
 }`.trim();
 
 const emailStyle = {
@@ -79,7 +86,7 @@ export default function BaseEmail({
         );
     });
     return (
-        <Email headCSS={mobileCSS} title="Alliance Builders Invoice">
+        <Email id="email" headCSS={mobileCSS} title="Alliance Builders Invoice">
             <div style={emailStyle}>
                 <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                     <p>Alliance Builders Inc.</p>

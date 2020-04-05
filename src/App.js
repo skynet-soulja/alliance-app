@@ -229,7 +229,7 @@ export default class App extends React.Component {
                 <h1 style={{ margin: '2rem 0px' }}>Alliance Builders</h1>
                 <Form>
                     <Form.Row>
-                        <Form.Group as={Col} controlId="formBasicCompany">
+                        <Form.Group xs="12" md="4" as={Col} controlId="formBasicCompany">
                             <Form.Label>Company Name</Form.Label>
                             <Form.Control
                                 name="companyName"
@@ -239,7 +239,7 @@ export default class App extends React.Component {
                                 onChange={this.handleChange}
                             />
                         </Form.Group>
-                        <Form.Group as={Col} controlId="formBasicCompany">
+                        <Form.Group xs="12" md="4" as={Col} controlId="formBasicCompany">
                             <Form.Label>Company Email</Form.Label>
                             <Form.Control
                                 name="companyEmail"
@@ -249,7 +249,7 @@ export default class App extends React.Component {
                                 onChange={this.handleChange}
                             />
                         </Form.Group>
-                        <Form.Group as={Col} controlId="formBasicInvoice">
+                        <Form.Group xs="12" md="4" as={Col} controlId="formBasicInvoice">
                             <Form.Label>Invoice #</Form.Label>
                             <Form.Control
                                 name="invoiceNum"
@@ -277,7 +277,7 @@ export default class App extends React.Component {
 
                     <Form.Row>{dropdowns}</Form.Row>
 
-                    <Form.Row>
+                    <Form.Row id="btn-ctrl">
                         <Col>
                             <Button variant="primary" type="button" onClick={this.addInvoiceItem}>
                                 Add Invoice Item
@@ -301,12 +301,12 @@ export default class App extends React.Component {
                         </Col>
                     </Form.Row>
                 </Form>
-                <Table style={{ marginTop: '1rem' }} striped bordered hover size="sm">
+                <Table id="invoice-table" style={{ marginTop: '1rem' }} striped bordered hover responsive size="sm">
                     <thead>
                         <tr>
                             <th>CC Description</th>
-                            <th>Model</th>
-                            <th>Elevation</th>
+                            <th className="responsive-hide">Model</th>
+                            <th className="responsive-hide">Elevation</th>
                             <th>Option</th>
                             <th>Price</th>
                             <th>Remove Row</th>
@@ -316,8 +316,8 @@ export default class App extends React.Component {
                         {!this.state.invoiceItems.length ? (
                             <tr>
                                 <td>XXX</td>
-                                <td>XXX</td>
-                                <td>XXX</td>
+                                <td className="responsive-hide">XXX</td>
+                                <td className="responsive-hide">XXX</td>
                                 <td>XXX</td>
                                 <td>XXX</td>
                                 <td>XXX</td>
@@ -329,10 +329,11 @@ export default class App extends React.Component {
                     <tfoot>
                         <tr>
                             <td>Total</td>
-                            <td></td>
-                            <td></td>
+                            <td className="responsive-hide"></td>
+                            <td className="responsive-hide"></td>
                             <td></td>
                             <td>{this.state.totalValue}</td>
+                            <td></td>
                         </tr>
                     </tfoot>
                 </Table>

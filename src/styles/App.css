@@ -1,0 +1,21 @@
+@media only screen and (max-width: 480px) {
+    h1 {
+        margin: 1rem 0;
+        font-size: 1.5rem;
+    }
+
+    #invoice-table .responsive-hide {
+        display: none;
+    }
+
+    #btn-ctrl > div {
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    #btn-ctrl button {
+        margin-bottom: 1rem;
+        margin-left: 0 !important;
+    }
+}
