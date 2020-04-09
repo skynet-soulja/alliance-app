@@ -93,7 +93,7 @@ export default function BaseEmail({
                     <p>(703) 926-5780</p>
                 </div>
                 <div style={{ marginBottom: '2rem' }}>
-                    <p style={pStyle}>Billing: Toll Information Systems</p>
+                    <p style={pStyle}>Billing: Toll Integrated Systems</p>
                     <p style={pStyle}>
                         Address: {site} Lot # {lotNum}
                     </p>

@@ -11,7 +11,7 @@ export default function useInvoice(input) {
 
     for (let [inputName, inputValue] of Object.entries(input)) {
         if (valuedInputs.includes(inputName)) {
-            priceId += inputValue[1];
+            priceId += priceId ? `|${inputValue[1]}` : inputValue[1];
             invoiceItem[inputName] = inputValue;
         }
     }
