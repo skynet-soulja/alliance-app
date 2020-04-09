@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import priceMapping from '../price-mapping.json';
+import config from '../config.json';
 
 const valuedInputs = ['site', 'cc', 'model', 'elevation', 'option'];
 
@@ -16,7 +16,7 @@ export default function useInvoice(input) {
         }
     }
 
-    const price = priceMapping[priceId];
+    const price = config.priceMapping[priceId];
 
     function handleInvoice(event, clear = false, removeOne = false) {
         if (clear) {
