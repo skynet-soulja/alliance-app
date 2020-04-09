@@ -67,16 +67,14 @@ export default function App() {
     // functions
     function handleSubmit(event) {
         event.preventDefault();
-        const userID = 'user_V14xWF1ExiPPBbXWAxdW6';
-        const serviceID = 'default_service';
-        const templateID = 'alliance_builders_invoice';
+        const { userId, serviceId, templateId } = config.emailjs;
         const variables = {
             companyEmail: emailAttributes.companyEmail,
             html: renderEmail(<BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />),
         };
 
         emailjs
-            .send(serviceID, templateID, variables, userID)
+            .send(serviceId, templateId, variables, userId)
             .then((response) => {
                 alert('Email successfully sent!');
                 this.clearInvoice();

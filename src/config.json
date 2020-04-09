@@ -1,4 +1,9 @@
 {
+    "emailjs": {
+        "userId": "user_V14xWF1ExiPPBbXWAxdW6",
+        "serviceId": "default_service",
+        "templateId": "alliance_builders_invoice"
+    },
     "components": [
         {
             "type": "input",
