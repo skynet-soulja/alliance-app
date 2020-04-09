@@ -1,10 +1,11 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { Email } from 'react-html-email';
-import descriptionMap from '../mapping/description.json';
-import optionMap from '../mapping/option.json';
 
 const mobileCSS = `
+body {
+    letter-spacing: .03rem;
+}
 @media only screen and (max-width: 992px) {
     table td > table {
         width: 100% !important;
@@ -63,23 +64,20 @@ const tdFootStyle = {
 };
 
 export default function BaseEmail({
-    companyName,
+    site,
+    model,
+    elevation,
     invoiceNum,
-    companyDescription,
-    invoiceItems,
+    lotNum,
     totalValue,
     today,
+    invoice,
     numberWithCommas,
 }) {
-    const { model, elevation } = invoiceItems[0];
-    const tablerows = invoiceItems.map(({ description, option, price }, index) => {
-        let trStyle = {};
-        if ((index + 1) % 2 !== 0) {
-            trStyle = { ...trStyleOne };
-        }
+    const tablerows = invoice.map(({ cc: [cc, ccValue], option: [option, optValue], price }, index) => {
         return (
-            <tr style={trStyle} key={index}>
-                <td style={tdStyle}>{option !== 'BASE HOUSE' ? optionMap[option] : descriptionMap[description]}</td>
+            <tr style={(index + 1) % 2 !== 0 ? trStyleOne : {}} key={index}>
+                <td style={tdStyle}>{option !== 'BASE HOUSE' ? optValue : ccValue}</td>
                 <td style={tdStyle}>{option}</td>
                 <td style={tdStyle}>${numberWithCommas(price)}.00</td>
             </tr>
@@ -95,8 +93,10 @@ export default function BaseEmail({
                     <p>(703) 926-5780</p>
                 </div>
                 <div style={{ marginBottom: '2rem' }}>
-                    <p style={pStyle}>Billing: {companyName}</p>
-                    <p style={pStyle}>Address: {companyDescription}</p>
+                    <p style={pStyle}>Billing: Toll Information Systems</p>
+                    <p style={pStyle}>
+                        Address: {site} Lot # {lotNum}
+                    </p>
                     <p style={pStyle}>
                         Model/Elevation: {model}/{elevation}
                     </p>
@@ -117,7 +117,7 @@ export default function BaseEmail({
                         </tr>
                     </tfoot>
                 </Table>
-                <p style={{ marginBottom: 8 }}>Invoice# {invoiceNum}</p>
+                <p style={{ marginBottom: 8 }}>Invoice # {invoiceNum}</p>
             </div>
         </Email>
     );

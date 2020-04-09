@@ -1,0 +1,239 @@
+{
+    "components": [
+        {
+            "type": "input",
+            "init": "bmartinalliance@gmail.com",
+            "attributes": {
+                "name": "email",
+                "type": "email",
+                "placeholder": "Enter valid email"
+            },
+            "formattedName": "Send To",
+            "required": false
+        },
+        {
+            "type": "input",
+            "init": "",
+            "attributes": {
+                "name": "invoiceNum",
+                "type": "text",
+                "placeholder": "Enter invoice #"
+            },
+            "formattedName": "Invoice #",
+            "required": true
+        },
+        {
+            "type": "input",
+            "init": "",
+            "attributes": {
+                "name": "lotNum",
+                "type": "text",
+                "placeholder": "Enter lot #"
+            },
+            "formattedName": "Lot #",
+            "required": true
+        },
+        {
+            "type": "dropdown",
+            "init": [
+                "Lenah Mill Parker Singles",
+                "0"
+            ],
+            "attributes": {
+                "name": "site"
+            },
+            "formattedName": "Job Site",
+            "options": [
+                [
+                    "Lenah Mill Parker Singles",
+                    "0"
+                ],
+                [
+                    "Valley & Park",
+                    "1"
+                ]
+            ]
+        },
+        {
+            "type": "dropdown",
+            "init": [
+                "First Draw",
+                "4304"
+            ],
+            "attributes": {
+                "name": "cc"
+            },
+            "formattedName": "CC Description",
+            "options": [
+                [
+                    "First Draw",
+                    "4304"
+                ],
+                [
+                    "Second Draw",
+                    "4305"
+                ]
+            ]
+        },
+        {
+            "type": "dropdown",
+            "init": [
+                "Hersch",
+                "1"
+            ],
+            "attributes": {
+                "name": "model"
+            },
+            "formattedName": "Model",
+            "dependant": {
+                "Lenah Mill Parker Singles": {
+                    "options": [
+                        [
+                            "Hersch",
+                            "1"
+                        ],
+                        [
+                            "Hartigan",
+                            "2"
+                        ],
+                        [
+                            "Hermann",
+                            "3"
+                        ]
+                    ]
+                },
+                "Valley & Park": {
+                    "options": []
+                }
+            }
+        },
+        {
+            "type": "dropdown",
+            "init": [
+                "Farmhouse",
+                "14"
+            ],
+            "attributes": {
+                "name": "elevation"
+            },
+            "formattedName": "Elevation",
+            "dependant": {
+                "Lenah Mill Parker Singles": {
+                    "options": [
+                        [
+                            "Farmhouse",
+                            "14"
+                        ],
+                        [
+                            "Traditional",
+                            "20"
+                        ],
+                        [
+                            "Craftsman",
+                            "31"
+                        ]
+                    ]
+                },
+                "Valley & Park": {
+                    "options": []
+                }
+            }
+        },
+        {
+            "type": "dropdown",
+            "init": [
+                "BASE HOUSE",
+                "0"
+            ],
+            "attributes": {
+                "name": "option"
+            },
+            "formattedName": "Option",
+            "dependant": {
+                "Lenah Mill Parker Singles": {
+                    "options": [
+                        [
+                            "BASE HOUSE",
+                            "0"
+                        ],
+                        [
+                            "FINISHED LOWER LEVEL",
+                            "13"
+                        ],
+                        [
+                            "WALK-OUT BASEMENT",
+                            "17"
+                        ],
+                        [
+                            "DAYLIGHT BASEMENT",
+                            "18"
+                        ],
+                        [
+                            "EXPANDED FAMILY ROOM",
+                            "23"
+                        ],
+                        [
+                            "SARASOTA SUNROOM ADDITION",
+                            "27"
+                        ],
+                        [
+                            "LUXURIOUS MASTER BATH PACKAGE",
+                            "55"
+                        ],
+                        [
+                            "FIRST FLOOR BEDROOM IN LIEU OFST",
+                            "75"
+                        ],
+                        [
+                            "SKYLIGHT 22 x 46\"",
+                            "151"
+                        ],
+                        [
+                            "ADDITIONAL EXTERIOR DOOR",
+                            "164"
+                        ],
+                        [
+                            "ADDITIONAL INTERIOR DOOR",
+                            "167"
+                        ],
+                        [
+                            "POWDER ROOM FINISHED LOWER",
+                            "263036"
+                        ],
+                        [
+                            "STUDY IN LIEU OF LIVING ROOM",
+                            "263038"
+                        ],
+                        [
+                            "FULL BATHROOM IN LIEU OF POWDER",
+                            "263090"
+                        ],
+                        [
+                            "BEDROOM FOR FINISHED LOWER LEVEL",
+                            "263216"
+                        ],
+                        [
+                            "ADDITIONAL BATH",
+                            "367"
+                        ],
+                        [
+                            "ALTERNATE HALL BATH LAYOUT",
+                            "368"
+                        ],
+                        [
+                            "OPTIONAL BATH FOR FINISHED LOWER",
+                            "383"
+                        ],
+                        [
+                            "DAYLIGHT BASEMENT WINDOWS",
+                            "541"
+                        ]
+                    ]
+                },
+                "Valley & Park": {
+                    "options": []
+                }
+            }
+        }
+    ]
+}

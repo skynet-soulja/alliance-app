@@ -12,7 +12,12 @@ export default function EmailModal({ children, show, handleClose, handleSubmit }
                 </Modal.Header>
                 <Modal.Body>{children}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => {
+                            handleClose(false);
+                        }}
+                    >
                         Close
                     </Button>
                     <Button
@@ -20,7 +25,7 @@ export default function EmailModal({ children, show, handleClose, handleSubmit }
                         type="submit"
                         onClick={(event) => {
                             handleSubmit(event);
-                            handleClose();
+                            handleClose(false);
                         }}
                     >
                         Send Email

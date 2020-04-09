@@ -1,129 +1,78 @@
 // react
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { renderEmail } from 'react-html-email';
 import emailjs from 'emailjs-com';
 // bootstrap
 import Form from 'react-bootstrap/Form';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 // styles
 import './styles/App.css';
-// json data
-import dropdownOptionsData from './data/dropdown-options.json';
 // local components
-import Dropdown from './components/Dropdown';
-import TableRow from './components/TableRow';
+import DisplayTable from './components/DisplayTable';
 import EmailModal from './components/EmailModal';
 import BaseEmail from './components/BaseEmail';
-// mapping
-import mapOptionValues from './mapping';
+import ButtonGroup from './components/ButtonGroup';
+import Input from './components/Input';
+import Dropdown from './components/Dropdown';
+// config
+import config from './config.json';
+// hooks
+import useInput from './hooks/useInput';
+import useInvoice from './hooks/useInvoice';
 
-export default class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            dropdownOptions: dropdownOptionsData,
-            companyName: '',
-            companyEmail: '',
-            companyDescription: '',
-            invoiceNum: '',
-            currentInvoiceItem: {},
-            invoiceItems: [],
-            totalValue: 0,
-            today: new Date().toLocaleDateString(),
-            emailAttributes: {},
-            show: false,
-        };
-
-        this.wipeAndSeedCurrentInvoiceItem = this.wipeAndSeedCurrentInvoiceItem.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleSelectChange = this.handleSelectChange.bind(this);
-        this.handlePreview = this.handlePreview.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.addInvoiceItem = this.addInvoiceItem.bind(this);
-        this.removeInvoiceItem = this.removeInvoiceItem.bind(this);
-        this.clearInvoice = this.clearInvoice.bind(this);
-        this.calculateTotalValue = this.calculateTotalValue.bind(this);
-    }
-
-    componentDidMount() {
-        this.wipeAndSeedCurrentInvoiceItem();
-    }
-
-    wipeAndSeedCurrentInvoiceItem() {
-        const seedInvoiceItem = {};
-        for (let item of this.state.dropdownOptions) {
-            seedInvoiceItem[item.name] = item.options[0];
+export default function App() {
+    // standard
+    const [emailAttributes, setEmailAttributes] = useState({});
+    // boolean
+    const [showModal, setShowModal] = useState(false);
+    // calculated
+    const [totalValue, setTotalValue] = useState(0);
+    // custom './hooks'
+    const [input, handleInput] = useInput();
+    const [invoice, handleInvoice] = useInvoice(input);
+    // effects
+    useEffect(() => {
+        if (invoice.length) {
+            const totalValue = invoice.reduce((acc, obj) => {
+                return acc + obj.price;
+            }, 0);
+            setTotalValue(totalValue);
+        } else {
+            setTotalValue(0);
         }
-        this.setState({
-            currentInvoiceItem: seedInvoiceItem,
-        });
-    }
+    }, [invoice]);
 
-    handleShow() {
-        this.setState({
-            show: true,
-        });
-    }
+    // creating components from config
+    const components = {};
 
-    handleClose() {
-        this.setState({
-            show: false,
-        });
-    }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-    }
-
-    handleSelectChange(event) {
-        this.setState({
-            currentInvoiceItem: {
-                ...this.state.currentInvoiceItem,
-                [event.target.name]: event.target.value,
-            },
-        });
-    }
-
-    handlePreview(event) {
-        event.preventDefault();
-        const emailAttributes = {
-            companyName: this.state.companyName,
-            companyEmail: this.state.companyEmail,
-            invoiceNum: this.state.invoiceNum,
-            companyDescription: this.state.companyDescription,
-            invoiceItems: this.state.invoiceItems,
-            totalValue: this.state.totalValue,
-            today: this.state.today,
-        };
-        if (!this.checkRequiredValues(emailAttributes)) {
-            return;
+    for (let component of config.components) {
+        const {
+            type,
+            attributes: { name },
+        } = component;
+        components[type] = components[type] ? components[type] : {};
+        switch (type) {
+            case 'input':
+                components[type][name] = <Input key={name} {...component} handleChange={handleInput} />;
+                break;
+            case 'dropdown':
+                components[type][name] = (
+                    <Dropdown key={name} {...component} handleChange={handleInput} site={input.site} />
+                );
+                break;
+            default:
+                throw new Error('Invalid component type.');
         }
-        this.setState({ emailAttributes });
-        this.handleShow();
     }
 
-    handleSubmit(event) {
+    // functions
+    function handleSubmit(event) {
         event.preventDefault();
         const userID = 'user_V14xWF1ExiPPBbXWAxdW6';
         const serviceID = 'default_service';
         const templateID = 'alliance_builders_invoice';
         const variables = {
-            companyEmail: this.state.emailAttributes.companyEmail
-                ? this.state.emailAttributes.companyEmail
-                : 'bmartinalliance@gmail.com',
-            html: renderEmail(
-                <BaseEmail
-                    title="Alliance Builders Invoice"
-                    {...this.state.emailAttributes}
-                    numberWithCommas={this.numberWithCommas}
-                />
-            ),
+            companyEmail: emailAttributes.companyEmail,
+            html: renderEmail(<BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />),
         };
 
         emailjs
@@ -136,208 +85,79 @@ export default class App extends React.Component {
             .catch((error) => console.log(`Email failed to send: ${Object.entries(error)}`));
     }
 
-    checkRequiredValues(emailAttributes) {
-        if (!emailAttributes.invoiceItems.length) {
-            alert('No Invoice Items Added');
-            return false;
-        }
-        const requiredValues = {
-            companyName: 'Company Name',
-            invoiceNum: 'Invoice #',
-            companyDescription: 'Company Description',
-        };
-        for (let [key, value] of Object.entries(requiredValues)) {
-            if (!emailAttributes[key]) {
-                alert(`${value} is required`);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    addInvoiceItem() {
-        const price = mapOptionValues(this.state.currentInvoiceItem);
-        if (!price) {
-            alert('Invalid Invoice Item');
+    function handlePreview(event) {
+        event.preventDefault();
+        if (missingValues()) {
             return;
         }
-        this.setState(
-            {
-                invoiceItems: [...this.state.invoiceItems, { ...this.state.currentInvoiceItem, price }],
-            },
-            this.calculateTotalValue
-        );
+        const emailAttributes = {
+            companyEmail: input.email,
+            site: input.site[0],
+            model: input.model[0],
+            elevation: input.elevation[0],
+            invoiceNum: input.invoiceNum,
+            lotNum: input.lotNum,
+            totalValue: totalValue,
+            today: new Date().toLocaleDateString(),
+            invoice,
+            numberWithCommas,
+        };
+        setEmailAttributes(emailAttributes);
+        setShowModal(true);
     }
 
-    removeInvoiceItem(event) {
-        const invoiceItems = this.state.invoiceItems.filter((item, index) => index !== parseInt(event.target.value));
-        this.setState(
-            {
-                invoiceItems,
-            },
-            this.calculateTotalValue
-        );
-    }
-
-    clearInvoice() {
-        this.setState(
-            {
-                invoiceItems: [],
-            },
-            this.calculateTotalValue
-        );
-    }
-
-    calculateTotalValue() {
-        const totalValue = this.state.invoiceItems.length
-            ? this.state.invoiceItems.reduce((prev, curr) => ({
-                  price: prev.price + curr.price,
-              }))['price']
-            : 0;
-        this.setState({
-            totalValue,
+    function missingValues() {
+        return config.components.some((component) => {
+            if (component.required && !input[component.attributes.name]) {
+                alert(`${component.formattedName} is required!`);
+                return true;
+            } else if (!invoice.length) {
+                alert('No invoice items added!');
+                return true;
+            }
+            return false;
         });
     }
 
-    numberWithCommas(number) {
+    function numberWithCommas(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-    render() {
-        const dropdowns = this.state.dropdownOptions.map((item, index) => (
-            <Dropdown
-                key={index}
-                {...item}
-                value={this.state.currentInvoiceItem[item.name]}
-                handleChange={this.handleSelectChange}
-            />
-        ));
-
-        const tablerows = this.state.invoiceItems.map((item, index) => (
-            <TableRow key={index} id={index} item={item} removeInvoiceItem={this.removeInvoiceItem} />
-        ));
-
-        return (
-            <div className="App container">
-                <EmailModal show={this.state.show} handleClose={this.handleClose} handleSubmit={this.handleSubmit}>
-                    <BaseEmail
-                        title="Alliance Builders Invoice"
-                        {...this.state.emailAttributes}
-                        numberWithCommas={this.numberWithCommas}
-                    />
+    return (
+        <div className="App">
+            <div className="container">
+                <EmailModal show={showModal} handleClose={setShowModal} handleSubmit={handleSubmit}>
+                    <BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />
                 </EmailModal>
                 <h1 style={{ margin: '2rem 0px' }}>Alliance Builders</h1>
                 <Form>
                     <Form.Row>
-                        <Form.Group xs="12" md="4" as={Col} controlId="formBasicCompany">
-                            <Form.Label>Company Name</Form.Label>
-                            <Form.Control
-                                name="companyName"
-                                type="text"
-                                placeholder="Enter company name"
-                                value={this.state.companyName}
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group xs="12" md="4" as={Col} controlId="formBasicCompany">
-                            <Form.Label>Company Email</Form.Label>
-                            <Form.Control
-                                name="companyEmail"
-                                type="email"
-                                placeholder="Enter company email"
-                                value={this.state.companyEmail}
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group xs="12" md="4" as={Col} controlId="formBasicInvoice">
-                            <Form.Label>Invoice #</Form.Label>
-                            <Form.Control
-                                name="invoiceNum"
-                                type="text"
-                                placeholder="Enter invoice #"
-                                value={this.state.invoiceNum}
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
+                        {components.input.email}
+                        {components.input.invoiceNum}
                     </Form.Row>
-
                     <Form.Row>
-                        <Form.Group as={Col} controlId="formBasicDescription">
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control
-                                name="companyDescription"
-                                as="textarea"
-                                placeholder="Enter address"
-                                value={this.state.companyDescription}
-                                onChange={this.handleChange}
-                            />
-                            <Form.Text className="text-muted">For ex. - Lenah Mill Parker singles Lot 9024</Form.Text>
-                        </Form.Group>
+                        {components.dropdown.site}
+                        {components.input.lotNum}
                     </Form.Row>
-
-                    <Form.Row>{dropdowns}</Form.Row>
-
-                    <Form.Row id="btn-ctrl">
-                        <Col>
-                            <Button variant="primary" type="button" onClick={this.addInvoiceItem}>
-                                Add Invoice Item
-                            </Button>
-                            <Button
-                                style={{ marginLeft: '1rem' }}
-                                variant="primary"
-                                type="button"
-                                onClick={this.clearInvoice}
-                            >
-                                Clear Invoice
-                            </Button>
-                            <Button
-                                style={{ marginLeft: '1rem' }}
-                                variant="primary"
-                                type="submit"
-                                onClick={this.handlePreview}
-                            >
-                                Submit
-                            </Button>
-                        </Col>
+                    <Form.Row>
+                        {components.dropdown.model}
+                        {components.dropdown.elevation}
+                    </Form.Row>
+                    <Form.Row>
+                        {components.dropdown.cc}
+                        {components.dropdown.option}
+                    </Form.Row>
+                    <Form.Row>
+                        <ButtonGroup handleClick={{ handleInvoice, handlePreview }} />
                     </Form.Row>
                 </Form>
-                <Table id="invoice-table" style={{ marginTop: '1rem' }} striped bordered hover responsive size="sm">
-                    <thead>
-                        <tr>
-                            <th>CC Description</th>
-                            <th className="responsive-hide">Model</th>
-                            <th className="responsive-hide">Elevation</th>
-                            <th>Option</th>
-                            <th>Price</th>
-                            <th>Remove Row</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {!this.state.invoiceItems.length ? (
-                            <tr>
-                                <td>XXX</td>
-                                <td className="responsive-hide">XXX</td>
-                                <td className="responsive-hide">XXX</td>
-                                <td>XXX</td>
-                                <td>XXX</td>
-                                <td>XXX</td>
-                            </tr>
-                        ) : (
-                            tablerows
-                        )}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td>Total</td>
-                            <td className="responsive-hide"></td>
-                            <td className="responsive-hide"></td>
-                            <td></td>
-                            <td>{this.state.totalValue}</td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </Table>
+                <DisplayTable
+                    invoice={invoice}
+                    totalValue={totalValue}
+                    numberWithCommas={numberWithCommas}
+                    handleClick={handleInvoice}
+                ></DisplayTable>
             </div>
-        );
-    }
+        </div>
+    );
 }

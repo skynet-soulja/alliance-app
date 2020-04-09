@@ -2,19 +2,32 @@ import React from 'react/';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 
-export default function Dropdown({ options, name, value, handleChange }) {
-    const optionItems = options.map((option, index) => (
-        <option key={index} value={option}>
-            {option}
-        </option>
-    ));
+export default function Dropdown({ site, attributes, formattedName, dependant, options, handleChange }) {
+    const optionItems = !dependant ? mapOptions(options) : mapOptions(dependant[site[0]].options);
 
     return (
-        <Form.Group xs="12" md="3" as={Col} controlId={`form${name}`}>
-            <Form.Label>{`${name.charAt(0).toUpperCase()}${name.slice(1)}`}</Form.Label>
-            <Form.Control name={name} value={value} as="select" onChange={handleChange}>
+        <Form.Group xs="12" md="3" as={Col}>
+            <Form.Label>{formattedName}</Form.Label>
+            <Form.Control
+                {...attributes}
+                as="select"
+                onChange={(event) => {
+                    const complexValue = event.target.value.split(',');
+                    handleChange(event, complexValue);
+                }}
+            >
                 {optionItems}
             </Form.Control>
         </Form.Group>
     );
+}
+
+function mapOptions(options) {
+    return options.map(([value, numValue]) => {
+        return (
+            <option key={value} value={`${value},${numValue}`}>
+                {value}
+            </option>
+        );
+    });
 }
