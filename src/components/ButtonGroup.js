@@ -1,6 +1,7 @@
 import React from 'react';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import '../styles/ButtonGroup.css';
 
 export default function ButtonGroup({ handleClick }) {
     return (

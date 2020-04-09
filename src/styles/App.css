@@ -11,15 +11,4 @@
     #invoice-table .responsive-hide {
         display: none;
     }
-
-    #btn-ctrl > div {
-        display: flex;
-        flex-direction: column;
-        margin-top: 1rem;
-    }
-
-    #btn-ctrl button {
-        margin-bottom: 1rem;
-        margin-left: 0 !important;
-    }
 }
