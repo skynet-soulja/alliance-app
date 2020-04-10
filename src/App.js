@@ -77,8 +77,7 @@ export default function App() {
             .send(serviceId, templateId, variables, userId)
             .then((response) => {
                 alert('Email successfully sent!');
-                this.clearInvoice();
-                this.wipeAndSeedCurrentInvoiceItem();
+                handleInvoice(event, true);
             })
             .catch((error) => console.log(`Email failed to send: ${Object.entries(error)}`));
     }
