@@ -20,5 +20,9 @@ export default function useInput() {
 }
 
 function initState() {
-    return Object.fromEntries(config.components.map((input) => [input.attributes.name, input.init]));
+    const stateObj = {};
+    for (let component of config.components) {
+        stateObj[component.attributes.name] = component.init;
+    }
+    return stateObj;
 }
