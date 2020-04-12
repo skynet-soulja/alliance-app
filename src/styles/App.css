@@ -1,3 +1,17 @@
+#routing .btn {
+    padding: 0;
+}
+
+a {
+    display: inline-block;
+    color: #fff !important;
+    padding: 0.375rem 0.75rem;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 .form-row {
     margin-bottom: 1rem;
 }
