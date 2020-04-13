@@ -21,7 +21,7 @@ export default class Custom extends React.Component {
         return (
             <div id="pdf-wrapper">
                 <p>Open with Microsoft Edge to enable form filling.</p>
-                <a class="btn btn-primary" href="alliance_builders_invoice.pdf">
+                <a target="blank" className="btn btn-primary" href="alliance_builders_invoice.pdf">
                     Open PDF
                 </a>
                 {/* <Document file="alliance_builders_invoice.pdf" onLoadSuccess={this.onDocumentLoadSuccess}>
