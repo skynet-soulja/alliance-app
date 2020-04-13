@@ -17,7 +17,7 @@ export default function App() {
                         size="sm"
                         className={!pathname.includes('custom') ? 'btn btn-primary active' : 'btn btn-primary'}
                     >
-                        <Link name="route" value={1} to={'/alliance-app'}>
+                        <Link name="route" to={'/alliance-app'}>
                             Standard
                         </Link>
                     </button>
@@ -25,7 +25,7 @@ export default function App() {
                         size="sm"
                         className={pathname.includes('custom') ? 'btn btn-primary active' : 'btn btn-primary'}
                     >
-                        <Link name="route" value={2} to={'/alliance-app/custom'}>
+                        <Link name="route" to={'/alliance-app/custom'}>
                             Custom
                         </Link>
                     </button>
