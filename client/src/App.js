@@ -17,7 +17,7 @@ export default function App() {
                         size="sm"
                         className={!pathname.includes('custom') ? 'btn btn-primary active' : 'btn btn-primary'}
                     >
-                        <Link name="route" to={'/alliance-app'}>
+                        <Link name="route" to={'/'}>
                             Standard
                         </Link>
                     </button>
@@ -25,7 +25,7 @@ export default function App() {
                         size="sm"
                         className={pathname.includes('custom') ? 'btn btn-primary active' : 'btn btn-primary'}
                     >
-                        <Link name="route" to={'/alliance-app/custom'}>
+                        <Link name="route" to={'/custom'}>
                             Custom
                         </Link>
                     </button>
@@ -34,8 +34,8 @@ export default function App() {
 
             <main>
                 <h1 style={{ margin: '2rem 0px' }}>Alliance Builders</h1>
-                <Route exact path="/alliance-app" component={Standard}></Route>
-                <Route path="/alliance-app/custom" component={Custom}></Route>
+                <Route exact path="/" component={Standard}></Route>
+                <Route path="/custom" component={Custom}></Route>
             </main>
         </React.Fragment>
     );

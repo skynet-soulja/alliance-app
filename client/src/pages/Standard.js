@@ -1,7 +1,6 @@
 // react
 import React, { useState, useEffect } from 'react';
-import { renderEmail } from 'react-html-email';
-import emailjs from 'emailjs-com';
+// import { renderEmail } from 'react-html-email';
 import * as html2pdf from 'html2pdf.js';
 import axios from 'axios';
 // bootstrap
