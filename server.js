@@ -1,11 +1,19 @@
+// path
+const path = require('path');
+
 // dotenv
 const dotenv = require('dotenv');
 dotenv.config();
 
 // express
 const express = require('express');
+const favicon = require('express-favicon');
+
 const app = express();
 app.use(express.json({ limit: '50mb' }));
+app.use(express.static(path.join(__dirname, 'build')));
+app.use(favicon(__dirname + '/client/build/favicon.ico'));
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -71,4 +79,8 @@ app.post('/send', (request, response) => {
                   message: 'Email successfuly sent!',
               });
     });
+});
+
+app.get('*', (request, response) => {
+    response.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });

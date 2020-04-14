@@ -1,13 +1,20 @@
 {
-  "name": "alliance-app",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/martinwillnorman/alliance-app.git",
-  "license": "MIT",
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "googleapis": "^48.0.0",
-    "nodemailer": "^6.4.6"
-  }
+    "name": "alliance-app",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/martinwillnorman/alliance-app.git",
+    "license": "MIT",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-favicon": "^2.0.1",
+        "googleapis": "^48.0.0",
+        "nodemailer": "^6.4.6"
+    },
+    "engines": {
+        "node": "12.16.1"
+    }
 }
