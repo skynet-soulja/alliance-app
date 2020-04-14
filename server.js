@@ -57,7 +57,7 @@ app.post('/send', (request, response) => {
     let { to, invoiceNum, html, attachment } = request.body;
     const message = {
         from: process.env.CLIENT_NAME,
-        to: 'martinwillnorman@gmail.com',
+        to,
         subject: 'Invoice - Alliance Builders Inc.',
         // html,
         text: `Invoice # ${invoiceNum} Attached \n\n Robert Martin - President \n Alliance Builders \n 24931 Avonlea Drive \n Chantilly VA 20152`,
