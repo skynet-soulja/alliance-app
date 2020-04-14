@@ -17,17 +17,57 @@ body {
     }
 }`.trim();
 
+const h1Style = {
+    fontSize: '3.5rem',
+    marginBottom: '1rem',
+};
+
+const flexStyle = {
+    display: 'flex',
+    justifyContent: 'left',
+    marginBottom: '1rem',
+};
+
+const flexBasisStyle = {
+    flexBasis: '50%',
+};
+
+const marginRightStyle = {
+    marginRight: '3rem',
+};
+
+const h6Style = {
+    color: '#7a7979',
+    fontSize: '.9rem',
+    fontWeight: 700,
+};
+
+const spacerStyle = {
+    display: 'block',
+    height: '4rem',
+};
+
+const spacerMdStyle = {
+    display: 'block',
+    height: '3.5rem',
+};
+
+const spacerSmStyle = {
+    display: 'block',
+    height: '2rem',
+};
+
 const emailStyle = {
     boxSizing: 'border-box',
-    fontSize: '18px',
+    fontSize: '12px',
     color: '#212529',
     backgroundColor: '#ffffff',
     padding: '0 1rem',
+    letterSpacing: '0.07rem',
 };
 
 const pStyle = {
-    marginTop: 2,
-    marginBottom: 2,
+    lineHeight: 1.7,
 };
 
 const tableStyle = {
@@ -83,25 +123,46 @@ export default function BaseEmail({
             </tr>
         );
     });
+
     return (
-        <Email id="email" headCSS={mobileCSS} title="Alliance Builders Invoice">
+        <Email id="email" width="750px" headCSS={mobileCSS} title="Alliance Builders Invoice">
             <div style={emailStyle}>
-                <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                    <p>Alliance Builders Inc.</p>
-                    <p>24931 Avonlea Drive</p>
-                    <p>Chantilly Va. 20152</p>
-                    <p>(703) 926-5780</p>
+                <div style={spacerSmStyle}></div>
+                <h1 style={h1Style}>INVOICE</h1>
+                <div style={flexStyle}>
+                    <div style={marginRightStyle}>
+                        <h6 style={h6Style}>INVOICE NUMBER</h6>
+                        <span>{invoiceNum}</span>
+                    </div>
+                    <div>
+                        <h6 style={h6Style}>DATE OF ISSUE</h6>
+                        <span>{today}</span>
+                    </div>
                 </div>
-                <div style={{ marginBottom: '2rem' }}>
-                    <p style={pStyle}>Billing: Toll Integrated Systems</p>
-                    <p style={pStyle}>
-                        Address: {site} Lot # {lotNum}
-                    </p>
-                    <p style={pStyle}>
-                        Model/Elevation: {model}/{elevation}
-                    </p>
-                    <p style={pStyle}>Date: {today}</p>
+                <div style={spacerStyle}></div>
+                <div style={flexStyle}>
+                    <div style={flexBasisStyle}>
+                        <h6 style={h6Style}>BILLED TO</h6>
+                        <p style={pStyle}>Toll Integrated Systems</p>
+                        <h6 style={h6Style}>FOR</h6>
+                        <p style={pStyle}>
+                            {site} Lot # {lotNum}
+                        </p>
+                        <h6 style={h6Style}>MODEL/ELEVATION</h6>
+                        <p style={pStyle}>
+                            {model}/{elevation}
+                        </p>
+                    </div>
+                    <div style={flexBasisStyle}>
+                        <h6 style={h6Style}>
+                            <b style={{ color: '#212529' }}>Alliance Builders Inc.</b>
+                        </h6>
+                        <p style={pStyle}>
+                            24931 Avonlea Drive <br /> Chantilly VA 20152 <br /> (703) 926-5780
+                        </p>
+                    </div>
                 </div>
+                <div style={spacerMdStyle}></div>
                 <Table style={tableStyle}>
                     <thead>
                         <th style={thStyle}>Option</th>
@@ -117,7 +178,8 @@ export default function BaseEmail({
                         </tr>
                     </tfoot>
                 </Table>
-                <p style={{ marginBottom: 8 }}>Invoice # {invoiceNum}</p>
+                <div style={spacerStyle}></div>
+                <footer>Alliance Builders Inc.</footer>
             </div>
         </Email>
     );

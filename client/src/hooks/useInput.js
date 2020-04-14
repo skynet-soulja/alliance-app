@@ -4,19 +4,18 @@ import config from '../config.json';
 export default function useInput() {
     const [input, setInput] = useState(initState());
 
-    function handleComponent(event, complexValue) {
-        const { name, value } = event.target;
+    function handleInput(event, complexValue, clear = false) {
         if (complexValue) {
             setInput({
                 ...input,
-                [name]: complexValue,
+                [event.target.name]: complexValue,
             });
         } else {
-            setInput({ ...input, [name]: value });
+            setInput({ ...input, [event.target.name]: event.target.value });
         }
     }
 
-    return [input, handleComponent];
+    return [input, handleInput];
 }
 
 function initState() {

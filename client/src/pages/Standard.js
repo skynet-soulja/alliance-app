@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { renderEmail } from 'react-html-email';
 import emailjs from 'emailjs-com';
+import * as html2pdf from 'html2pdf.js';
+import axios from 'axios';
 // bootstrap
 import Form from 'react-bootstrap/Form';
 // styles
@@ -67,19 +69,47 @@ export default function Standard() {
     // functions
     function handleSubmit(event) {
         event.preventDefault();
-        const { userId, serviceId, templateId } = config.emailjs;
-        const variables = {
-            companyEmail: emailAttributes.companyEmail,
-            html: renderEmail(<BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />),
+
+        const options = {
+            margin: 0,
+            // filename: 'alliance_builders_invoice.pdf',
+            image: { type: 'png', quality: 0.98 },
+            html2canvas: { scale: 1 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
         };
 
-        emailjs
-            .send(serviceId, templateId, variables, userId)
-            .then((response) => {
-                alert('Email successfully sent!');
-                handleInvoice(event, true);
-            })
-            .catch((error) => console.log(`Email failed to send: ${Object.entries(error)}`));
+        html2pdf()
+            .set(options)
+            .from(document.querySelector('#email-container > html'))
+            .toPdf()
+            .output('datauristring')
+            .then(sendEmail);
+    }
+
+    async function sendEmail(pdfAsString) {
+        // const renderedInvoice = renderEmail(<BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />);
+
+        try {
+            const response = await axios.post(
+                '/send',
+                {
+                    to: emailAttributes.companyEmail,
+                    invoiceNum: emailAttributes.invoiceNum,
+                    // html: renderedInvoice,
+                    html: null,
+                    attachment: pdfAsString,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            alert(response.data.message);
+            handleInvoice(null, true);
+        } catch (error) {
+            alert('Email failed to send!');
+        }
     }
 
     function handlePreview(event) {
