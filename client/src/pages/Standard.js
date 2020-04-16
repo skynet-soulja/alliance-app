@@ -5,6 +5,9 @@ import * as html2pdf from 'html2pdf.js';
 import axios from 'axios';
 // bootstrap
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
 // styles
 import '../styles/App.css';
 // local components
@@ -25,6 +28,7 @@ export default function Standard() {
     const [emailAttributes, setEmailAttributes] = useState({});
     // boolean
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
     // calculated
     const [totalValue, setTotalValue] = useState(0);
     // custom './hooks'
@@ -91,6 +95,9 @@ export default function Standard() {
         );
 
         try {
+            // open loading spinner/modal
+            setLoading(true);
+
             const response = await axios.post(
                 '/send',
                 {
@@ -105,6 +112,10 @@ export default function Standard() {
                     },
                 }
             );
+
+            // close loading spinner/modal
+            setLoading(false);
+
             alert(response.data.message);
         } catch (error) {
             alert('Email failed to send!');
@@ -113,9 +124,11 @@ export default function Standard() {
 
     function handlePreview(event) {
         event.preventDefault();
+
         if (missingValues()) {
             return;
         }
+
         const emailAttributes = {
             companyEmail: input.email,
             site: input.site[0],
@@ -128,6 +141,7 @@ export default function Standard() {
             invoice,
             numberWithCommas,
         };
+
         setEmailAttributes(emailAttributes);
         setShowModal(true);
     }
@@ -154,6 +168,18 @@ export default function Standard() {
             <EmailModal show={showModal} handleClose={setShowModal} handleSubmit={handleSubmit}>
                 <BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />
             </EmailModal>
+            {loading ? (
+                <React.Fragment>
+                    <div className="fade modal-backdrop show"></div>
+                    <div className="spinner-wrapper">
+                        <Spinner animation="border" variant="primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </div>
+                </React.Fragment>
+            ) : (
+                <React.Fragment />
+            )}
             <Form>
                 <Form.Row>
                     {components.input.email}

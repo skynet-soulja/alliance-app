@@ -16,6 +16,14 @@ a:hover {
     margin-bottom: 1rem;
 }
 
+.spinner-wrapper {
+    z-index: 1041;
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media only screen and (max-width: 480px) {
     h1 {
         margin: 1rem 0;
