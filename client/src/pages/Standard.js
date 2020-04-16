@@ -90,9 +90,9 @@ export default function Standard() {
     }
 
     async function sendEmail(pdfAsString) {
-        const renderedInvoice = renderEmail(
-            <BaseEmail title="Alliance Builders Invoice" {...emailAttributes} darkBackground={true} />
-        );
+        // const renderedInvoice = renderEmail(
+        //     <BaseEmail title="Alliance Builders Invoice" {...emailAttributes} darkBackground={true} />
+        // );
 
         try {
             // open loading spinner/modal
@@ -103,7 +103,8 @@ export default function Standard() {
                 {
                     to: emailAttributes.companyEmail,
                     invoiceNum: emailAttributes.invoiceNum,
-                    html: renderedInvoice,
+                    // html: renderedInvoice,
+                    html: null,
                     attachment: pdfAsString,
                 },
                 {
