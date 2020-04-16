@@ -1,13 +1,11 @@
 // react
 import React, { useState, useEffect } from 'react';
-import { renderEmail } from 'react-html-email';
+// import { renderEmail } from 'react-html-email';
 import * as html2pdf from 'html2pdf.js';
 import axios from 'axios';
 // bootstrap
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
-import Button from 'react-bootstrap/Button';
 // styles
 import '../styles/App.css';
 // local components
