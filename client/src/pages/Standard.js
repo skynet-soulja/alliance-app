@@ -1,6 +1,6 @@
 // react
 import React, { useState, useEffect } from 'react';
-// import { renderEmail } from 'react-html-email';
+import { renderEmail } from 'react-html-email';
 import * as html2pdf from 'html2pdf.js';
 import axios from 'axios';
 // bootstrap
@@ -86,7 +86,9 @@ export default function Standard() {
     }
 
     async function sendEmail(pdfAsString) {
-        // const renderedInvoice = renderEmail(<BaseEmail title="Alliance Builders Invoice" {...emailAttributes} />);
+        const renderedInvoice = renderEmail(
+            <BaseEmail title="Alliance Builders Invoice" {...emailAttributes} darkBackground={true} />
+        );
 
         try {
             const response = await axios.post(
@@ -94,8 +96,7 @@ export default function Standard() {
                 {
                     to: emailAttributes.companyEmail,
                     invoiceNum: emailAttributes.invoiceNum,
-                    // html: renderedInvoice,
-                    html: null,
+                    html: renderedInvoice,
                     attachment: pdfAsString,
                 },
                 {
@@ -105,7 +106,6 @@ export default function Standard() {
                 }
             );
             alert(response.data.message);
-            handleInvoice(null, true);
         } catch (error) {
             alert('Email failed to send!');
         }
