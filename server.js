@@ -58,7 +58,7 @@ app.post('/send', (request, response) => {
     const message = {
         from: process.env.CLIENT_NAME,
         to,
-        bcc: process.env.CLIENT_NAME,
+        // bcc: process.env.CLIENT_NAME,
         subject: 'Invoice - Alliance Builders Inc.',
         // html,
         text: `Invoice # ${invoiceNum} Attached \n\n Robert Martin - President \n Alliance Builders \n 24931 Avonlea Drive \n Chantilly VA 20152`,
