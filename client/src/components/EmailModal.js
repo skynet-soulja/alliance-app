@@ -10,7 +10,7 @@ export default function EmailModal({ children, show, handleClose, handleSubmit }
                 <Modal.Header closeButton>
                     <Modal.Title>Preview Email</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{children}</Modal.Body>
+                <Modal.Body id="email-container">{children}</Modal.Body>
                 <Modal.Footer>
                     <Button
                         variant="secondary"

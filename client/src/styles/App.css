@@ -1,0 +1,36 @@
+#routing .btn {
+    padding: 0;
+}
+
+a {
+    display: inline-block;
+    color: #fff !important;
+    padding: 0.375rem 0.75rem;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.form-row {
+    margin-bottom: 1rem;
+}
+
+.spinner-wrapper {
+    z-index: 1041;
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 480px) {
+    h1 {
+        margin: 1rem 0;
+        font-size: 1.5rem;
+    }
+
+    #invoice-table .responsive-hide {
+        display: none;
+    }
+}

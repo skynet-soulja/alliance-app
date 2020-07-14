@@ -1,0 +1,16 @@
+#pdf-wrapper {
+    width: 100%;
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column; */
+}
+
+#pdf-wrapper div {
+    width: 100%;
+    max-width: 850px;
+}
+
+#pdf-wrapper canvas {
+    width: 100% !important;
+    height: 80vh !important;
+}
