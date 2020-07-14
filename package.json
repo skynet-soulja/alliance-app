@@ -13,9 +13,10 @@
         "express": "^4.17.1",
         "express-favicon": "^2.0.1",
         "googleapis": "^48.0.0",
-        "nodemailer": "^6.4.6"
+        "nodemailer": "^6.4.6",
+        "websocket-extensions": "^0.1.4"
     },
     "engines": {
-        "node": "12.16.1"
+        "node": "12.18.2"
     }
 }

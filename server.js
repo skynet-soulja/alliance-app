@@ -18,33 +18,14 @@ const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// google apis
-const { google } = require('googleapis');
-const OAuth2 = google.auth.OAuth2;
-
-const oauth2Client = new OAuth2(
-    process.env.CLIENT_ID, // ClientID
-    process.env.CLIENT_SECRET, // Client Secret
-    'https://developers.google.com/oauthplayground' // Redirect URL
-);
-
-oauth2Client.setCredentials({
-    refresh_token: process.env.CLIENT_REFRESH_TOKEN,
-});
-const accessToken = oauth2Client.getAccessToken();
-
 // nodemailer
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        type: 'OAuth2',
-        user: process.env.CLIENT_NAME,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.CLIENT_REFRESH_TOKEN,
-        accessToken: accessToken,
+        user: process.env.G_USER,
+        pass: process.env.G_PW,
     },
 });
 
