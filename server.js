@@ -39,6 +39,7 @@ app.post('/send', (request, response) => {
     const message = {
         from: process.env.CLIENT_NAME,
         to,
+        bcc: "bmartinalliance@gmail.com",
         // bcc: process.env.CLIENT_NAME,
         subject: `Invoice # ${invoiceNum} - Alliance Builders Inc. `,
         // html,
