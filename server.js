@@ -39,14 +39,11 @@ app.post('/send', (request, response) => {
     const message = {
         from: process.env.CLIENT_NAME,
         to,
-        bcc: "bmartinalliance@gmail.com",
-        // bcc: process.env.CLIENT_NAME,
+        bcc: process.env.CLIENT_NAME,
         subject: `Invoice # ${invoiceNum} - Alliance Builders Inc. `,
-        // html,
         text: `See Attached \n\n Robert Martin - President \n Alliance Builders \n 24931 Avonlea Drive \n Chantilly VA 20152`,
         attachments: [
             {
-                // encoded string as an attachment
                 filename: `alliance_builders_invoice_#${invoiceNum}.pdf`,
                 path: attachment,
             },
